@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <title>Public Library</title>
+</head>
+<body>
+  <div class="container">
+    <div id="media-list">
+      <h1>{{ title }}</h1>
+      <select v-on:change = "filterList">
+        <option value="">Select a type of media...</option>
+        <option v-for = "item in uniqueItemsList">{{ item }}</option>
+      </select>
+       <ul>
+        <!-- used on click method to toggle between showDetail passing parameter because we have to specified which media we are targeting from array -->
+        <li v-show = "type === '' || type === media.type"
+            v-for="media in mediaList" 
+            v-on:click="toggleDetails(media)"
+            v-bind:class="[media.showDetail ? 'less': 'more', media.type]"
+           >
+           <!-- without using ternory operator -->
+            <!-- v-bind:class="[{less: media.showDetail, more: !media.showDetail}, media.type]" -->
+
+          <h3>{{media.title}}</h3> 
+          <div v-show="media.showDetail">
+            <p>{{media.description}}</p>
+            <!-- used v-if condition to check if there is any contributor then only show this part -->
+            <p v-if="media.contributor" class="byline">By: {{media.contributor}}</p>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
